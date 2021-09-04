@@ -4,6 +4,7 @@ import com.redisdemo.constant.ProjectConstant;
 import com.redisdemo.entity.Product;
 import com.redisdemo.respository.ProductDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +36,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
+    @CacheEvict(key= "#id" , value = ProjectConstant.HASH_KEY)//Cache'den siliniyor!
     public String remove(@PathVariable int id){
         return productDao.deleteProduct(id);
     }
